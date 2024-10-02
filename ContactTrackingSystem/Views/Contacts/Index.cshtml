@@ -1,0 +1,97 @@
+﻿@model IEnumerable<ContactViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Contacts</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-info">Create New</a>
+</p>
+<div>
+
+</div>
+<table class="table table-striped" id="contactTable">
+    <thead>
+        <tr>
+            <th>
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" id="txtFilter" placeholder="First Name or Last Name or Zip Code">
+                    <label for="txtFilter">Search</label>
+                </div>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zip)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr id="@item.Id">
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zip)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtFilter").keyup(function () {
+            var filterData = $('#txtFilter').val();
+            console.log(filterData);
+
+
+            var value = $(this).val().toLowerCase();
+
+            $("#contactTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+
+            // $.ajax({
+            //     url: '/Contacts/Index',
+            //     type: 'POST',
+            //     data: {filterData:filterData},
+            //     error: function (xhr, status, error) {
+            //         alert('Error: ' + xhr.statusText - status - error);
+            //     },
+            //     success: function (result) {
+            //         console.log(result);
+            //     }
+            // });
+
+        });
+    });
+
+</script>
